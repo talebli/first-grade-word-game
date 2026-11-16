@@ -1,7 +1,7 @@
 /**
  * Service Worker برای اجرای کاملاً آفلاین و نصب PWA روی موبایل
  */
-const CACHE_NAME = 'grade1-wordgame-v1';
+const CACHE_NAME = 'grade1-wordgame-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
