@@ -1344,3 +1344,489 @@ body {
     font-size: 1rem;
   }
 }
+
+/* ==========================================================================
+   استایل‌های نوار سوئیچر موضوع اصلی (فارسی / ریاضی)
+   ========================================================================== */
+.subject-switcher-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 6px;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid #E2E8F0;
+}
+
+.subject-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: transparent;
+  color: #64748B;
+}
+
+.subject-btn.active[data-subject="farsi"] {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: white;
+  border-color: #1E40AF;
+  box-shadow: 0 4px 0 #1E3A8A;
+}
+
+.subject-btn.active[data-subject="math"] {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  border-color: #047857;
+  box-shadow: 0 4px 0 #065F46;
+}
+
+/* نوار انتخاب سطوح ریاضی */
+.math-level-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.math-level-btn {
+  background: #F1F5F9;
+  border: 2px solid #CBD5E1;
+  border-radius: var(--border-radius-sm);
+  padding: 6px 12px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.math-level-btn:hover {
+  border-color: #10B981;
+}
+
+.math-level-btn.active {
+  background: #DCFCE7;
+  border-color: #10B981;
+  color: #065F46;
+  font-weight: 800;
+  box-shadow: 0 2px 0 #059669;
+}
+
+/* استایل‌های کارت‌های بازی ریاضی */
+.math-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.math-question-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1E293B;
+  background: #F8FAFC;
+  padding: 10px 20px;
+  border-radius: var(--border-radius-md);
+  border: 2px solid #E2E8F0;
+  width: 100%;
+}
+
+.math-answers-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.math-answer-btn {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border: 3px solid #CBD5E1;
+  border-radius: var(--border-radius-md);
+  font-family: inherit;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #1E293B;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #94A3B8;
+  transition: all 0.15s;
+}
+
+.math-answer-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 0 #94A3B8;
+  border-color: #10B981;
+}
+
+.math-answer-btn.correct {
+  background: #10B981;
+  color: white;
+  border-color: #059669;
+  box-shadow: 0 6px 0 #047857;
+}
+
+.math-answer-btn.wrong {
+  background: #EF4444;
+  color: white;
+  border-color: #DC2626;
+  box-shadow: 0 6px 0 #B91C1C;
+  animation: shake 0.4s;
+}
+
+/* ۱. شمارش و چوب‌خط */
+.counting-items-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 480px;
+  padding: 20px;
+  background: #F8FAFC;
+  border-radius: var(--border-radius-lg);
+  border: 2px dashed #94A3B8;
+  min-height: 120px;
+}
+
+.counting-item-pop {
+  font-size: 42px;
+  animation: float-emoji 2.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* چوب‌خط‌ها (Tally Marks) */
+.tally-display-box {
+  background: #FEF3C7;
+  border: 3px solid #F59E0B;
+  border-radius: var(--border-radius-md);
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 0 #D97706;
+}
+
+.tally-group-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.tally-five {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  padding: 6px 12px;
+  height: 60px;
+  align-items: center;
+}
+
+.tally-remainder {
+  display: flex;
+  gap: 8px;
+  padding: 6px 12px;
+  height: 60px;
+  align-items: center;
+}
+
+.v-line {
+  width: 5px;
+  height: 50px;
+  background: #92400E;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.slash-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #B45309;
+  border-radius: 3px;
+  transform: rotate(-32deg) translateY(-50%);
+  transform-origin: center;
+}
+
+.counting-helper-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #B45309;
+  margin-top: 10px;
+}
+
+/* ۲. جمع و تفریق تصویری */
+.math-calc-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px;
+  background: #F1F5F9;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid #E2E8F0;
+  width: 100%;
+}
+
+.calc-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  border: 2px solid #CBD5E1;
+  min-width: 90px;
+}
+
+.calc-items-row {
+  font-size: 28px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 34px;
+}
+
+.calc-digit-badge {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #1E293B;
+}
+
+.calc-operator-badge {
+  font-size: 2.2rem;
+}
+
+.calc-group.question-target {
+  background: #FEF3C7;
+  border: 3px dashed #F59E0B;
+}
+
+.calc-question-mark {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #D97706;
+}
+
+/* ۳. الگویابی */
+.pattern-track-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 20px;
+  background: #F8FAFC;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid #E2E8F0;
+  width: 100%;
+}
+
+.pattern-cell {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  background: white;
+  border: 3px solid #CBD5E1;
+  box-shadow: 0 4px 0 #94A3B8;
+}
+
+.pattern-cell.target-empty {
+  background: #FEF3C7;
+  border-color: #F59E0B;
+  color: #D97706;
+  font-weight: 900;
+  animation: pulse-border 1.5s infinite;
+}
+
+.pattern-arrow {
+  font-size: 1.4rem;
+  color: #94A3B8;
+}
+
+.pattern-option-btn {
+  background: white;
+  border: 3px solid #CBD5E1;
+  border-radius: var(--border-radius-md);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #94A3B8;
+  transition: all 0.15s;
+}
+
+.pattern-option-btn .opt-char {
+  font-size: 2.2rem;
+}
+
+.pattern-option-btn .opt-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.pattern-option-btn:hover {
+  transform: translateY(-3px);
+  border-color: #10B981;
+}
+
+/* ۴. کمتر، بیشتر و مساوی */
+.compare-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.compare-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: #F8FAFC;
+  padding: 16px;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid #E2E8F0;
+  min-width: 130px;
+}
+
+.compare-digit {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #1E293B;
+}
+
+.compare-items-box {
+  font-size: 24px;
+  min-height: 32px;
+}
+
+.compare-slot-target {
+  width: 80px;
+  height: 80px;
+  background: #FEF3C7;
+  border: 3px dashed #F59E0B;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #D97706;
+}
+
+.compare-btn {
+  background: white;
+  border: 3px solid #CBD5E1;
+  border-radius: var(--border-radius-md);
+  padding: 12px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #94A3B8;
+  transition: all 0.15s;
+}
+
+.compare-btn .op-sym {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #1E293B;
+}
+
+.compare-btn .op-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.compare-btn:hover {
+  transform: translateY(-3px);
+  border-color: #10B981;
+}
+
+/* ۵. جدول شگفت‌انگیز (سودوکوی ۳×۳) */
+.sudoku-stage {
+  display: flex;
+  justify-content: center;
+}
+
+.sudoku-grid-3x3 {
+  display: grid;
+  grid-template-columns: repeat(3, 76px);
+  grid-template-rows: repeat(3, 76px);
+  gap: 8px;
+  background: #334155;
+  padding: 10px;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.sudoku-cell {
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.sudoku-cell.empty-target {
+  background: #FEF3C7;
+  color: #D97706;
+  font-weight: 900;
+  font-size: 2.8rem;
+  animation: pulse-border 1.5s infinite;
+}
+
+.sudoku-prompt {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #047857;
+}
+
+.sudoku-choice-btn {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border: 3px solid #CBD5E1;
+  border-radius: var(--border-radius-md);
+  font-size: 2.6rem;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.sudoku-choice-btn:hover {
+  transform: translateY(-3px);
+  border-color: #10B981;
+}
