@@ -53,8 +53,24 @@
       </div>
     </header>
 
-    <!-- نوار نشانه‌های فعال و دسترسی سریع به پنل معلم و والدین -->
-    <section class="curriculum-bar">
+    <!-- نوار سوئیچر دروس (فارسی / ریاضی) -->
+    <nav class="subject-switcher-nav" aria-label="انتخاب درس">
+      <button id="subject-btn-farsi" class="subject-btn active" data-subject="farsi">
+        <span>📚</span>
+        <span>فارسی و کلمه‌سازی</span>
+      </button>
+      <button id="subject-btn-math" class="subject-btn" data-subject="math">
+        <span>🧮</span>
+        <span>ریاضی و بازی‌های عددی</span>
+      </button>
+    </nav>
+
+    <!-- ======================================================== -->
+    <!-- بخش ۱: فارسی و کلمه‌سازی -->
+    <!-- ======================================================== -->
+    <div id="section-farsi">
+      <!-- نوار نشانه‌های فعال و دسترسی سریع به پنل معلم و والدین -->
+      <section class="curriculum-bar">
       <div class="curriculum-info">
         <span class="letters-tag" id="letters-count-badge">در حال بارگذاری نشانه‌ها...</span>
         <span class="words-available-tag">
@@ -220,6 +236,82 @@
       </section>
 
     </main>
+    </div> <!-- پایان بخش ۱: فارسی -->
+
+    <!-- ======================================================== -->
+    <!-- بخش ۲: ریاضی و بازی‌های عددی (تم‌های ۱ تا ۲۵) -->
+    <!-- ======================================================== -->
+    <div id="section-math" class="hidden">
+      
+      <!-- نوار کنترل سطوح و تم‌های تدریس‌شده ریاضی -->
+      <section class="curriculum-bar">
+        <div class="curriculum-info">
+          <span class="letters-tag" id="math-active-level-label">تا عدد ۵ (تم ۱ تا ۵)</span>
+          <span class="words-available-tag">۲۵ تم کتاب درسی</span>
+        </div>
+
+        <div class="math-level-selector" title="انتخاب سطح تدریس‌شده">
+          <button class="math-level-btn active" data-math-level="1">تا ۵ (تم ۱-۵)</button>
+          <button class="math-level-btn" data-math-level="2">تا ۱۰ (تم ۶-۱۵)</button>
+          <button class="math-level-btn" data-math-level="3">تا ۲۰ (تم ۱۶-۲۵)</button>
+        </div>
+      </section>
+
+      <!-- تب‌های ۵ بازی تعاملی ریاضی -->
+      <nav class="mode-tabs-nav" aria-label="بازی‌های ریاضی">
+        <button class="math-tab-btn mode-tab-btn active" data-math-mode="counting">
+          <span>🔢</span>
+          <span>شمارش و چوب‌خط</span>
+        </button>
+        <button class="math-tab-btn mode-tab-btn" data-math-mode="addition">
+          <span>➕</span>
+          <span>جمع و تفریق</span>
+        </button>
+        <button class="math-tab-btn mode-tab-btn" data-math-mode="pattern">
+          <span>🎨</span>
+          <span>الگویابی</span>
+        </button>
+        <button class="math-tab-btn mode-tab-btn" data-math-mode="compare">
+          <span>🐊</span>
+          <span>کمتر / بیشتر</span>
+        </button>
+        <button class="math-tab-btn mode-tab-btn" data-math-mode="sudoku">
+          <span>🧩</span>
+          <span>جدول شگفت‌انگیز</span>
+        </button>
+      </nav>
+
+      <!-- محوطه بازی‌های ریاضی -->
+      <main class="game-main-area">
+        
+        <!-- ۱. شمارش و چوب‌خط -->
+        <section id="math-view-counting" class="math-view-panel game-view-panel">
+          <div id="math-counting-container"></div>
+        </section>
+
+        <!-- ۲. جمع و تفریق تصویری -->
+        <section id="math-view-addition" class="math-view-panel game-view-panel hidden">
+          <div id="math-addition-container"></div>
+        </section>
+
+        <!-- ۳. الگویابی شگفت‌انگیز -->
+        <section id="math-view-pattern" class="math-view-panel game-view-panel hidden">
+          <div id="math-pattern-container"></div>
+        </section>
+
+        <!-- ۴. کمتر، بیشتر و مساوی -->
+        <section id="math-view-compare" class="math-view-panel game-view-panel hidden">
+          <div id="math-compare-container"></div>
+        </section>
+
+        <!-- ۵. جدول شگفت‌انگیز (سودوکوی ۳×۳) -->
+        <section id="math-view-sudoku" class="math-view-panel game-view-panel hidden">
+          <div id="math-sudoku-container"></div>
+        </section>
+
+      </main>
+
+    </div> <!-- پایان بخش ۲: ریاضی -->
 
   </div>
 
@@ -299,11 +391,51 @@
     </div>
   </div>
 
-  <!-- اسکریپت‌ها -->
-  <script src="js/words-db.js"></script>
-  <script src="js/sound-engine.js"></script>
-  <script src="js/confetti.js"></script>
-  <script src="js/app.js"></script>
+  <!-- اسکریپت‌ها با برچسب نسخه جدید جهت جلوگیری از کش مرورگر -->
+  <script src="js/words-db.js?v=2.5"></script>
+  <script src="js/math-db.js?v=2.5"></script>
+  <script src="js/sound-engine.js?v=2.5"></script>
+  <script src="js/confetti.js?v=2.5"></script>
+  <script src="js/app.js?v=2.5"></script>
+  <script src="js/math-engine.js?v=2.5"></script>
+
+  <!-- کنترل سوئیچر دروس (فارسی / ریاضی) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const farsiBtn = document.getElementById('subject-btn-farsi');
+      const mathBtn = document.getElementById('subject-btn-math');
+      const farsiSec = document.getElementById('section-farsi');
+      const mathSec = document.getElementById('section-math');
+
+      function switchSubject(subject) {
+        if (subject === 'math') {
+          farsiBtn.classList.remove('active');
+          mathBtn.classList.add('active');
+          farsiSec.classList.add('hidden');
+          mathSec.classList.remove('hidden');
+          if (window.mathEngine) window.mathEngine.startNewRound();
+        } else {
+          mathBtn.classList.remove('active');
+          farsiBtn.classList.add('active');
+          mathSec.classList.add('hidden');
+          farsiSec.classList.remove('hidden');
+          if (window.app) window.app.startNewRound();
+        }
+        localStorage.setItem('grade1_active_subject', subject);
+        if (window.soundEngine) window.soundEngine.playPop(560);
+      }
+
+      if (farsiBtn && mathBtn) {
+        farsiBtn.addEventListener('click', () => switchSubject('farsi'));
+        mathBtn.addEventListener('click', () => switchSubject('math'));
+
+        const savedSub = localStorage.getItem('grade1_active_subject');
+        if (savedSub === 'math') {
+          switchSubject('math');
+        }
+      }
+    });
+  </script>
 
   <!-- ثبت سرویس‌ورکر جهت قابلیت کارکرد آفلاین روی موبایل -->
   <script>
