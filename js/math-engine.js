@@ -1,6 +1,11 @@
 /**
  * موتور بازی‌های ریاضی اول دبستان
- * شامل ۵ بازی اصلی: شمارش و چوب‌خط، جمع و تفریق تصویری، الگویابی، مقایسه کمتر/بیشتر، و جدول شگفت‌انگیز
+ * نسخه اصلاح‌شده و پایدار با پشتیبانی کامل از ۵ بازی:
+ * ۱. شمارش و چوب‌خط
+ * ۲. جمع و تفریق تصویری
+ * ۳. الگویابی شگفت‌انگیز
+ * ۴. مقایسه کمتر، بیشتر و مساوی
+ * ۵. جدول شگفت‌انگیز (سودوکوی ۳×۳)
  */
 
 class MathEngine {
@@ -9,7 +14,7 @@ class MathEngine {
     this.currentMode = 'counting'; // 'counting', 'addition', 'pattern', 'compare', 'sudoku'
     this.score = 0;
     this.streak = 0;
-    this.currentQuestion = null;
+    this.isProcessing = false;
 
     this.init();
   }
@@ -52,21 +57,27 @@ class MathEngine {
   }
 
   setupEventListeners() {
-    // تب‌های انتخاب بازی‌های ریاضی
-    document.querySelectorAll('.math-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+    // تب‌های انتخاب بازی‌های ریاضی (فقط در بخش ریاضی)
+    document.querySelectorAll('#section-math .math-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const mode = btn.dataset.mathMode;
-        this.switchMathMode(mode);
-        window.soundEngine.playPop(520);
+        if (mode) {
+          this.switchMathMode(mode);
+          window.soundEngine.playPop(520);
+        }
       });
     });
 
     // دکمه‌های انتخاب سطح تم‌ها (تا ۵، تا ۱۰، تا ۲۰)
-    document.querySelectorAll('.math-level-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+    document.querySelectorAll('#section-math .math-level-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const lvl = parseInt(btn.dataset.mathLevel, 10);
-        this.setThemeLevel(lvl);
-        window.soundEngine.playPop(600);
+        if (lvl) {
+          this.setThemeLevel(lvl);
+          window.soundEngine.playPop(600);
+        }
       });
     });
   }
@@ -75,7 +86,7 @@ class MathEngine {
     this.currentThemeLevel = lvl;
     this.saveState();
 
-    document.querySelectorAll('.math-level-btn').forEach(b => {
+    document.querySelectorAll('#section-math .math-level-btn').forEach(b => {
       b.classList.toggle('active', parseInt(b.dataset.mathLevel, 10) === lvl);
     });
 
@@ -89,13 +100,14 @@ class MathEngine {
   }
 
   switchMathMode(mode) {
+    if (!mode) return;
     this.currentMode = mode;
 
-    document.querySelectorAll('.math-tab-btn').forEach(b => {
+    document.querySelectorAll('#section-math .math-tab-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.mathMode === mode);
     });
 
-    document.querySelectorAll('.math-view-panel').forEach(panel => {
+    document.querySelectorAll('#section-math .math-view-panel').forEach(panel => {
       panel.classList.add('hidden');
     });
 
@@ -108,6 +120,8 @@ class MathEngine {
   }
 
   startNewRound() {
+    this.isProcessing = false;
+
     if (this.currentMode === 'counting') {
       this.initCountingRound();
     } else if (this.currentMode === 'addition') {
@@ -129,22 +143,20 @@ class MathEngine {
     const max = this.getMaxNumber();
     const count = Math.floor(Math.random() * max) + 1;
     const item = MATH_ITEMS[Math.floor(Math.random() * MATH_ITEMS.length)];
-    // انتخاب نوع نمایش: اشیاء یا چوب‌خط یا انگشتان دست
     const displayType = Math.random() > 0.45 ? 'items' : 'tally';
 
-    // تولید گزینه‌های چندگزینه‌ای
+    // گزینه‌های چندگزینه‌ای ایمن
     const options = [count];
-    while (options.length < 4) {
+    let attempts = 0;
+    while (options.length < 4 && attempts < 30) {
+      attempts++;
       const wrong = Math.floor(Math.random() * max) + 1;
       if (!options.includes(wrong)) options.push(wrong);
     }
+    for (let i = 1; options.length < 4; i++) {
+      if (!options.includes(i)) options.push(i);
+    }
     options.sort(() => Math.random() - 0.5);
-
-    this.currentQuestion = {
-      type: 'counting',
-      correct: count,
-      options: options
-    };
 
     const container = document.getElementById('math-counting-container');
     if (!container) return;
@@ -198,7 +210,7 @@ class MathEngine {
     if (isSubtraction) {
       opSymbol = '-';
       a = Math.floor(Math.random() * (max - 1)) + 2;
-      b = Math.floor(Math.random() * a) + 1;
+      b = Math.floor(Math.random() * (a - 1)) + 1;
       result = a - b;
     } else {
       opSymbol = '+';
@@ -208,10 +220,16 @@ class MathEngine {
       result = a + b;
     }
 
+    // گزینه‌های چندگزینه‌ای ایمن
     const options = [result];
-    while (options.length < 4) {
+    let attempts = 0;
+    while (options.length < 4 && attempts < 30) {
+      attempts++;
       const wrong = Math.floor(Math.random() * (max + 1));
       if (!options.includes(wrong) && wrong >= 0) options.push(wrong);
+    }
+    for (let i = 0; options.length < 4; i++) {
+      if (!options.includes(i)) options.push(i);
     }
     options.sort(() => Math.random() - 0.5);
 
@@ -266,17 +284,14 @@ class MathEngine {
   // ۳. بازی الگویابی شگفت‌انگیز (Pattern Recognition)
   // =========================================================================
   initPatternRound() {
-    // انتخاب ۲ یا ۳ شکل برای الگو
     const countShapes = this.currentThemeLevel === 1 ? 2 : 3;
     const shuffled = [...SHAPES].sort(() => Math.random() - 0.5).slice(0, countShapes);
 
-    // تکرار الگو: A, B, A, B, A, ? یا A, B, C, A, B, ?
     let patternSeq = [];
     for (let cycle = 0; cycle < 3; cycle++) {
       shuffled.forEach(s => patternSeq.push(s));
     }
 
-    // کات کردن الگو تا ۵ یا ۶ عضو و خالی گذاشتن آخری
     const totalLength = countShapes === 2 ? 5 : 6;
     const activePattern = patternSeq.slice(0, totalLength);
     const correctShape = activePattern[activePattern.length - 1];
@@ -332,7 +347,6 @@ class MathEngine {
 
     let a = Math.floor(Math.random() * max) + 1;
     let b;
-    // ۳۰٪ احتمال تساوی
     if (Math.random() < 0.3) {
       b = a;
     } else {
@@ -399,10 +413,6 @@ class MathEngine {
   initSudokuRound() {
     const symbols = [SHAPES[0], SHAPES[1], SHAPES[2]]; // دایره قرمز، مربع آبی، مثلث قرمز
 
-    // یک جدول معتبر لاتین ۳×۳
-    // سطر ۱: A, B, C
-    // سطر ۲: B, C, A
-    // سطر ۳: C, A, B
     const shift = Math.floor(Math.random() * 3);
     const syms = [symbols[shift], symbols[(shift + 1) % 3], symbols[(shift + 2) % 3]];
 
@@ -412,7 +422,6 @@ class MathEngine {
       [syms[2], syms[0], syms[1]]
     ];
 
-    // انتخاب یک خانه خالی تصادفی
     const targetRow = Math.floor(Math.random() * 3);
     const targetCol = Math.floor(Math.random() * 3);
     const correctShape = grid[targetRow][targetCol];
@@ -455,9 +464,12 @@ class MathEngine {
     });
   }
 
-  // رسیدگی به پاسخ‌های ریاضی
+  // رسیدگی به پاسخ‌های ریاضی با محافظت در برابر کلیک مکرر
   checkAnswer(isCorrect, btnElement, nextRoundCallback) {
+    if (this.isProcessing) return;
+
     if (isCorrect) {
+      this.isProcessing = true;
       btnElement.classList.add('correct');
       window.soundEngine.playSuccess();
       window.confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 55);
@@ -468,8 +480,9 @@ class MathEngine {
       this.updateStatsUI();
 
       setTimeout(() => {
+        this.isProcessing = false;
         nextRoundCallback();
-      }, 1100);
+      }, 1000);
     } else {
       btnElement.classList.add('wrong');
       window.soundEngine.playSoftError();
@@ -487,4 +500,7 @@ class MathEngine {
   }
 }
 
-window.mathEngine = new MathEngine();
+// راه‌اندازی پس از بارگذاری DOM
+window.addEventListener('DOMContentLoaded', () => {
+  window.mathEngine = new MathEngine();
+});

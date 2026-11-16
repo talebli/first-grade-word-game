@@ -237,12 +237,14 @@ class WordGameApp {
   }
 
   setupEventListeners() {
-    // تب‌های انتخاب حالت بازی
-    document.querySelectorAll('.mode-tab-btn').forEach(btn => {
+    // تب‌های انتخاب حالت بازی (فقط بخش فارسی)
+    document.querySelectorAll('#section-farsi .mode-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const mode = btn.dataset.mode;
-        this.switchMode(mode);
-        window.soundEngine.playPop(520);
+        if (mode) {
+          this.switchMode(mode);
+          window.soundEngine.playPop(520);
+        }
       });
     });
 
@@ -396,13 +398,14 @@ class WordGameApp {
   }
 
   switchMode(mode) {
+    if (!mode) return;
     this.currentMode = mode;
 
-    document.querySelectorAll('.mode-tab-btn').forEach(b => {
+    document.querySelectorAll('#section-farsi .mode-tab-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.mode === mode);
     });
 
-    document.querySelectorAll('.game-view-panel').forEach(panel => {
+    document.querySelectorAll('#section-farsi .game-view-panel').forEach(panel => {
       panel.classList.add('hidden');
     });
 
