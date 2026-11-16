@@ -230,9 +230,10 @@ body {
   padding-bottom: 4px;
 }
 
-.mode-tab-btn {
+.mode-tab-btn,
+.math-tab-btn {
   flex: 1;
-  min-width: 130px;
+  min-width: 120px;
   background: white;
   border: 2px solid #E2E8F0;
   padding: 12px 14px;
@@ -255,6 +256,14 @@ body {
   color: #B45309;
   border-color: #FBBF24;
   box-shadow: 0 4px 0 #F59E0B;
+  transform: translateY(-2px);
+}
+
+.math-tab-btn.active {
+  background: #ECFDF5;
+  color: #065F46;
+  border-color: #10B981;
+  box-shadow: 0 4px 0 #059669;
   transform: translateY(-2px);
 }
 
@@ -1250,7 +1259,8 @@ body {
     gap: 6px;
   }
 
-  .mode-tab-btn {
+  .mode-tab-btn,
+  .math-tab-btn {
     min-width: 100px;
     padding: 9px 8px;
     font-size: 0.85rem;
